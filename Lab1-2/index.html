@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our T-Shirts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product {
+            background-color: white;
+            border: 5px solid #001f3f;
+            border-radius: 20px;
+            width: 200px;
+            text-align: center;
+        }
+        .product img {
+            margin-top: 5px;
+            width: 200px;
+            height: 200px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            object-fit: cover;
+        }
+        .product h2 {
+            text-align: left;
+            padding-left: 10px;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        .product p {
+            padding-left: 10px;
+            text-align: left;
+            color: grey;
+            font-size: 0.9em;
+        }
+
+        .product button {
+            background-color: #001f3f;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        
+        .preview-container {
+            width: fit-content;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border: 5px solid #001f3f;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .preview-container .images {
+            display: inline;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .preview-container img {
+            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+        }
+        .preview-container h2 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+
+        .preview-container .close-button {
+        top: 10px;
+        right: 10px;
+        background-color: #FF4136;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    
+   <div class="container">
+        <h1>Our T-Shirts</h1>
+        <div class="product-list" id="product-list"></div>
+        
+        <div class="preview-container" id="preview-container">
+             <div class="images">
+                <img id="preview-front" src="" alt="Front View">
+                <img id="preview-back" src="" alt="Back View">
+            </div>
+            <h2 id="preview-name"></h2>
+            <p id="preview-price"></p>
+            <button class="close-button" onclick="closePreview()">Close</button>
+        </div>
+    </div>
+
+    <script src="shirts.js"></script>
+    <script>
+        const productList = document.getElementById('product-list');
+        const previewContainer = document.getElementById('preview-container');
+        const previewFront = document.getElementById('preview-front');
+        const previewBack = document.getElementById('preview-back');
+        const previewName = document.getElementById('preview-name');
+        const previewPrice = document.getElementById('preview-price');
+        
+
+        function createProductCard(shirt) {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+
+        
+            const colorKeys = Object.keys(shirt.colors);
+            const firstColor = colorKeys.length > 0 ? colorKeys[0] : 'default';
+            const shirtBackImage = shirt.colors[firstColor]?.back || shirt.default.back;
+            const shirtImage = shirt.colors[firstColor]?.front || shirt.default.front;
+
+            const colorText = colorKeys.length > 0 
+                ? `Available in ${colorKeys.length} color${colorKeys.length > 1 ? 's' : ''}` 
+                : "No colors available";
+
+            productDiv.innerHTML = `
+                <img src="${shirtImage}" alt="${shirt.name}">
+                <h2>${shirt.name}</h2>
+                <p>${colorText}</p>
+                <button onclick="showPreview('${shirtImage}', '${shirtBackImage}', '${shirt.name}', '${shirt.price}')">Quick View</button>
+                <button onclick="goToDetailsPage(${JSON.stringify(shirt).replace(/"/g, '&quot;')})">See Page</button>
+            `;
+
+            return productDiv;
+        }
+
+        function showPreview(frontImageSrc, backImageSrc, name, price) {
+        previewFront.src = frontImageSrc;
+        previewBack.src = backImageSrc;
+        previewName.textContent = name;
+        previewPrice.textContent = price;
+        previewContainer.style.display = 'block'; 
+        }
+
+        function goToDetailsPage(shirt) {
+            localStorage.setItem('selectedShirt', JSON.stringify(shirt));
+            window.location.href = 'details.html';
+        }   
+        function closePreview() {
+        previewContainer.style.display = 'none'; }
+
+        shirts.forEach(shirt => {
+            const productCard = createProductCard(shirt);
+            productList.appendChild(productCard);
+        });
+
+        previewContainer.style.display = 'none';
+    </script>
+</body>
+</html>

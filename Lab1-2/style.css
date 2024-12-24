@@ -1,0 +1,49 @@
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+
+#shirt-image {
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-radius: 25px;
+}
+
+.buttons, .color-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.side-button, .color-button {
+    padding: 10px 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.side-button.active {
+    background-color: #001f3f;
+    color: white;
+    transform: scale(1.1);
+}
+
+.side-button:hover {
+    transform: scale(1.1);
+}
+
+.color-button {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.color-button:hover {
+    transform: scale(1.1);
+}
