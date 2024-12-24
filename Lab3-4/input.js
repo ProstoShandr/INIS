@@ -20,9 +20,7 @@ targets.forEach((target) => {
           draggedElement.style.left = `${moveEvent.clientX - offsetX}px`;
         }
       };
-
       document.addEventListener("mousemove", mouseMoveHandler);
-
       document.addEventListener(
         "mouseup",
         () => {
